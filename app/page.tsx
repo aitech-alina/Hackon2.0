@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -15,11 +16,16 @@ import {
 } from 'lucide-react';
 
 export default function HomePage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
-  if (isAuthenticated) {
-    router.push('/dashboard');
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.replace('/dashboard');
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  if (isLoading || isAuthenticated) {
     return null;
   }
 
