@@ -1,0 +1,9 @@
+opencv-python
+pytesseract
+spacy
+scikit-learn
+pandas
+fastapi
+uvicorn
+python-multipart
+pillow

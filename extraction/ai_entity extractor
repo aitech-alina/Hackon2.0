@@ -1,0 +1,38 @@
+from transformers import pipeline
+
+# Load pretrained NER model
+ner_pipeline = pipeline("ner", aggregation_strategy="simple")
+
+def extract_ai_entities(text):
+
+    entities = ner_pipeline(text)
+
+    extracted = {
+        "persons": [],
+        "organizations": [],
+        "locations": [],
+        "dates": [],
+        "money": []
+    }
+
+    for entity in entities:
+
+        label = entity["entity_group"]
+        word = entity["word"]
+
+        if label == "PER":
+            extracted["persons"].append(word)
+
+        elif label == "ORG":
+            extracted["organizations"].append(word)
+
+        elif label == "LOC":
+            extracted["locations"].append(word)
+
+        elif label == "DATE":
+            extracted["dates"].append(word)
+
+        elif label == "MONEY":
+            extracted["money"].append(word)
+
+    return extracted
